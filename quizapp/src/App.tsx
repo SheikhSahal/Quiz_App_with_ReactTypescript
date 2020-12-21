@@ -65,21 +65,34 @@ class App extends Component<any, any> {
 
     if (this.state.showresult) {
       return (
-        <div className="card">
-          <div className="card-header">
-            Result
+        <div className="container">
+          <br />
+          <div className="card">
+            <div className="card-header">
+              Result
           </div>
-          <div className="card-body">
-            <h5 className="card-title">
-            Your Final score is : {this.state.score} out of {this.state.quiz.length}
+            <div className="card-body">
+              <h5 className="card-title">
+                Your Final score is : {this.state.score} out of {this.state.quiz.length}
               </h5>
-            {/* <p className="card-text">With supporting text below as a natural lead-in to additional content.</p> */}
+              {/* <p className="card-text">With supporting text below as a natural lead-in to additional content.</p> */}
+            </div>
           </div>
         </div>
+
       )
     }
     if (!this.state.quiz.length)
-      return <h1>loading...</h1>
+      return (
+        <div className="container">
+          <div className="d-flex justify-content-center">
+            <div className="spinner-border" role="status">
+              <span className="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+
+      )
 
     return (
       <div>
