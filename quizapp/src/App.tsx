@@ -4,12 +4,14 @@ import { QuestionType, Quiz } from './Classes/quiz_types'
 import Questions from './Components/Questions'
 
 
-export class App extends Component<any, any> {
+class App extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
       quiz: [],
       crtstep: 0,
+      score: 0,
+      showresult: false
     }
   }
 
@@ -28,25 +30,54 @@ export class App extends Component<any, any> {
       this.setState({
         quiz: data
       })
-      console.log(data, "promise");
     });
 
   }
 
-  handleSubmit = (e: React.FormEvent<EventTarget>) => {
+  handleSubmit = (e: React.FormEvent<EventTarget>, userans: string) => {
     e.preventDefault();
+    const currentQuestion: QuestionType = this.state.quiz[this.state.crtstep];
+
+    console.log("Corrent answer: " + currentQuestion.correct_answer + " User Selection :" + userans)
+    if (userans === currentQuestion.correct_answer) {
+      this.setState({
+        score: this.state.score + 1
+      })
+
+    }
     if (this.state.crtstep !== this.state.quiz.length - 1) {
       this.setState({
         crtstep: this.state.crtstep + 1
       })
-      
+
     }
-    else { alert('Quiz Completed') }
+    else {
+      this.setState({
+        crtstep: 0,
+        score: 0,
+        showresult: true
+      })
+    }
 
   }
 
   render() {
 
+    if (this.state.showresult) {
+      return (
+        <div className="card">
+          <div className="card-header">
+            Result
+          </div>
+          <div className="card-body">
+            <h5 className="card-title">
+            Your Final score is : {this.state.score} out of {this.state.quiz.length}
+              </h5>
+            {/* <p className="card-text">With supporting text below as a natural lead-in to additional content.</p> */}
+          </div>
+        </div>
+      )
+    }
     if (!this.state.quiz.length)
       return <h1>loading...</h1>
 
